@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destroy the virus</title>
+    <link href="styles.css" rel="stylesheet">
+</head>
+
+<body>
+<h1>
+    KAJ - úkol ke cvičení 4
+</h1>
+
+<h2>Hra: Destroy the virus</h2>
+
+<h3>Ovládání</h3>
+<ul>
+    <li>Pohyb myší, střelba kliknutím</li>
+    <li>Pohyb WASD, střelba klávesou K</li>
+</ul>
+
+<div id='playground'>
+    <div id="info">
+        <button>New Game</button>
+        <input type="radio" name="controls" id="keys"> Keyboard | <input type="radio" name="controls" id="mouse"> Mouse
+        <h4>Score: 20 | Virusses eleminated: 25 | Virusses missed: 5</h4>
+
+    </div>
+    <img id="world" src="#" alt="World map" width="600">
+    <div id="overlay"></div>
+    <div id="ch"></div>
+    <div id=go>GAME OVER</div>
+    <!--    <div class="virus"></div>-->
+</div>
+
+<script src="scripts/Utils.js"></script>
+<script src="scripts/Virus.js"></script>
+<script src="scripts/Controls.js"></script>
+<script src="scripts/World.js"></script>
+<script src="scripts/Game.js"></script>
+<script>
+    let game = new Game();
+</script>
+
+
+</body>
+</html>
