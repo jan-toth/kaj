@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>THEREMIN</title>
+
+    <script>
+        class Theremin {
+
+            static get MAX_VOLUME() {
+                return 0.5
+            };
+
+            static get MAX_FREQ() {
+                return 2500;
+            }
+
+            constructor(initFrequencyRatio, initVolumeRatio) {
+                this._initializeAudioContex();
+                this.updateAudioParams(initFrequencyRatio, initVolumeRatio);
+                this._oscillatorNode.start();
+            }
+
+            _initializeAudioContex() {
+                this._ctx = new AudioContext();
+                this._oscillatorNode = this._ctx.createOscillator();
+                this._gainNode = this._ctx.createGain();
+
+                this._oscillatorNode.connect(this._gainNode);
+                this._gainNode.connect(this._ctx.destination);
+            }
+
+            updateAudioParams(freqRatio, volumeRatio) {
+                this._freq = freqRatio * Theremin.MAX_FREQ;
+                this._vol = volumeRatio * Theremin.MAX_VOLUME;
+
+                this._oscillatorNode.frequency.value = this._freq;
+                this._gainNode.gain.value = this._vol;
+            }
+        }
+    </script>
+</head>
+<body>
+<script>
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    const initFreq = 440;
+    const initVol = 0.5;
+
+    const theremin = new Theremin(initFreq / width, initVol / height);
+    document.addEventListener('mousemove', function (e) {
+        let x = e.clientX;
+        let y = e.clientY;
+        console.log(x, y)
+        theremin.updateAudioParams(x / width, 1 - y / height);
+    });
+
+</script>
+</body>
+</html>

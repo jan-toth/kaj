@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SVG Paint</title>
+    <style>
+        svg {
+            background: lightblue;
+            width: 500px;
+            height: 500px;
+        }
+    </style>
+</head>
+<body>
+<h2>SVG Paint</h2>
+<ul>
+    <li>LMB &ndash; draw</li>
+    <li>Ctrl/Cmd + Left mouse button &ndash; new path + draw</li>
+    <li>Shift + Left mouse button &ndash; clear</li>
+    <li> draw commands
+        <ul>
+            <li>1 - Line (default)</li>
+            <li>2 - Cubic Bezier Curve</li>
+            <li>3 - Cubic Bezier Curve with reflection</li>
+            <li>z - Close the path</li>
+        </ul>
+    </li>
+</ul>
+
+<svg id="svg1">
+</svg>
+
+<script>
+    class SvgPaint {
+
+        /**
+         * Supported curves:
+         *  1 - line
+         *  2 - Cubic Bezier
+         *  3 - Reflected Cubic Bezier
+         *  z - close the path
+         */
+        constructor() {
+            this._svg = document.querySelector("svg");
+
+            document.addEventListener('keydown', this);
+            this._svg.addEventListener('click', this);
+
+            this._curveType = 1;
+            this._currentPath = null;
+        }
+
+        _createPath(x, y) {
+            this._drawCircle(x, y);
+
+            this._currentPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+
+            this._currentPath.setAttribute('d', `M ${x} ${y}`);
+            this._currentPath.setAttribute('fill', 'transparent');
+            this._currentPath.setAttribute('stroke', 'black');
+            this._currentPath.setAttribute('stroke-width', '3px');
+
+            this._svg.appendChild(this._currentPath);
+            this._partialCoordinates = [];
+        }
+
+        _clear() {
+            this._svg.innerHTML = '';
+        }
+
+        handleEvent(e) {
+            if (e.type == 'keydown') {
+                this._handleKeyDown(e.key);
+            } else {
+                // e.type == 'mousemove'
+
+                const x = e.offsetX;
+                const y = e.offsetY;
+
+                if (e.ctrlKey || !this._currentPath) {
+                    this._createPath(x, y);
+                } else if (e.shiftKey) {
+                    this._clear();
+                } else {
+                    this._extendPath(x, y);
+                }
+            }
+        }
+
+        _handleKeyDown(key) {
+            let curve = Number(key);
+            if (curve) {
+                this._curveType = curve;
+            } else if (key.toLowerCase() == "z" && this._currentPath) {
+                let data = this._currentPath.getAttribute('d');
+                data += ' Z';
+                this._currentPath.setAttribute('d', data);
+            }
+        }
+
+        _drawCircle(x, y) {
+            let elem = document.createElementNS('http://www.w3.org/2000/svg', "circle");
+            elem.setAttribute('cx', x);
+            elem.setAttribute('cy', y);
+            elem.setAttribute('r', '3');
+            elem.setAttribute('fill', 'red');
+            this._svg.appendChild(elem);
+        }
+
+        _extendPath(x, y) {
+            let data = this._currentPath.getAttribute('d');
+
+            switch (this._curveType) {
+                case 1: // line
+                default:
+                    data += ` L ${x} ${y}`;
+                    break;
+
+                case 2: // cubic Bezier
+                    this._partialCoordinates.push(`${x} ${y}`);
+                    if (this._partialCoordinates.length == 3) {
+                        data += ` C ${this._partialCoordinates.join(', ')}`;
+                        this._partialCoordinates = [];
+                    }
+                    break;
+
+                case 3: // reflected cubic Bezier
+                    this._partialCoordinates.push(`${x} ${y}`);
+                    if (this._partialCoordinates.length == 2) {
+                        data += ` S ${this._partialCoordinates.join(', ')}`;
+                        this._partialCoordinates = [];
+                    }
+                    break;
+            }
+
+            this._currentPath.setAttribute('d', data);
+            this._drawCircle(x, y);
+        }
+
+    }
+
+    let paint = new SvgPaint();
+</script>
+</body>
+</html>
