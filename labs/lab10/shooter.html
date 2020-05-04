@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shooter</title>
+    <meta charset="utf-8"/>
+</head>
+<style media="screen">
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    canvas {
+        background: #efefef;
+        border: 3px groove black;
+        box-shadow: 2px 2px 3px #a0a0a0;
+        cursor: crosshair;
+        z-index: 1;
+    }
+
+</style>
+<body>
+
+<canvas width="750" height="600"></canvas>
+
+<script type="text/javascript">
+
+    class Media {
+
+        static loadImage(src) {
+            return new Promise((resolve, reject) => {
+                const image = new Image();
+                image.addEventListener('load', () => resolve(image));
+                image.addEventListener('error', err => reject(err));
+                image.src = src;
+            });
+        }
+
+        static loadAudio(src) {
+            return new Promise(resolve => resolve(new Audio(src)));
+        }
+
+    }
+
+    class Ship {
+
+        constructor(defaultX, defaultY, speed, image) {
+            this._defaultX = defaultX;
+            this._defaultY = defaultY;
+            this._speedMps = speed;
+
+            this._image = image;
+            this._width = image.width;
+            this._height = image.height;
+
+            this._x = defaultX;
+            this._y = defaultY;
+        }
+
+        get bBox() {
+            return [this._x, this._y, this._width, this._height];
+        }
+
+        get image() {
+            return this._image;
+        }
+
+        move(deltaTime) {
+            this._y -= this._speedMps * deltaTime;
+        }
+
+        isVisible() {
+            return this._y > -this._height;
+        }
+
+        isOver(dx, dy) {
+            console.log(this._x, this._y, this._width, this._height);
+            return this._x < dx && dx < this._x + this._width && this._y < dy && dy < this._y + this._height;
+        }
+
+        destroy() {
+            this._y = this._defaultY;
+        }
+
+    }
+
+    class Game {
+
+        constructor(backgroundImage, shipImage, boomAudio, shootAudio) {
+            this._bkgImage = backgroundImage;
+            this._shipImage = shipImage;
+            this._boomAudio = boomAudio;
+            this._shootAudio = shootAudio;
+
+            this._canvas = document.querySelector('canvas');
+            this._ctx = this._canvas.getContext('2d');
+
+            this._width = this._canvas.width;
+            this._height = this._canvas.height;
+
+            // rescale the image to match the canvas dimensions for simpler redrawing
+            this._bkgImage.style.width = `${this._width}px`;
+            this._bkgImage.style.height = `${this._height}px`;
+
+            this._ctx.drawImage(this._bkgImage, 0, 0);
+
+            this._ships = [
+                new Ship(30, this._height, 0.5, this._shipImage),
+                new Ship(300, this._height, 0.1, this._shipImage),
+                new Ship(580, this._height, 0.25, this._shipImage),
+            ];
+
+            for (let i = 0; i < this._ships.length; ++i) {
+                this._drawShip(this._ships[i]);
+            }
+
+            document.addEventListener('click', e => this._processInput(e));
+
+            this.t0 = performance.now();
+            requestAnimationFrame(this.update.bind(this));
+        }
+
+        _drawShip(ship) {
+            const [x, y, w, h] = ship.bBox;
+            this._ctx.drawImage(ship.image, x, y, w, h);
+        }
+
+        _eraseShip(ship) {
+            // TODO normally, this would have to account for other ships possibly being within the bounding box
+            const [x, y, w, h] = ship.bBox;
+            this._ctx.drawImage(this._bkgImage, x, y, w, h, x, y, w, h);
+        }
+
+        _moveShip(ship, deltaTime) {
+            this._eraseShip(ship);
+            ship.move(deltaTime);
+            this._drawShip(ship);
+        }
+
+        _processInput(event) {
+            const x = event.offsetX;
+            const y = event.offsetY;
+            console.log(x, y);
+
+            for (let i = 0; i < this._ships.length; ++i) {
+                const ship = this._ships[i];
+                if (ship.isOver(x, y)) {
+                    this._boomAudio.play();
+                    this._eraseShip(ship);
+                    ship.destroy();
+                } else {
+                    this._shootAudio.play();
+
+                }
+            }
+        }
+
+        update() {
+            const dt = performance.now() - this.t0;
+
+            for (let i = 0; i < this._ships.length; ++i) {
+                const ship = this._ships[i];
+                this._moveShip(ship, dt);
+                if (!ship.isVisible()) {
+                    ship.destroy();
+                }
+            }
+
+            this.t0 = performance.now();
+            requestAnimationFrame(this.update.bind(this));
+        }
+    }
+
+    let game;
+    Promise.all([
+        Media.loadImage('media/space.jpg'),
+        Media.loadImage('media/spaceship_sprite.png'),
+        Media.loadAudio('media/explosion.mp3'),
+        Media.loadAudio('media/miss.mp3')]
+    ).then(args => game = new Game(...args))
+
+</script>
+</body>
+</html>
