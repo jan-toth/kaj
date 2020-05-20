@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        svg {
+            width: 500px;
+            height: 500px;
+            border: 2px solid black;
+            background: lightblue;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg">
+<rect x="50" y="50" width="100" height="30"></rect>
+</svg>
+
+<script>
+
+    class Rect {
+
+        constructor(x, y) {
+            this._x = x;
+            this._y = y;
+
+        }
+
+
+        /*
+    let rect = document.createElementNS('http://www.w3.org/2000/svg', "rect");
+    rect.setAttribute("fill", "none");
+    rect.setAttribute("stroke", "black");
+
+    let drawing = false;
+    let X, Y;
+    let width, height;
+    let borderRadius = 0;
+
+    window.addEventListener("wheel", function (e) {
+        if (e.deltaY < 0) {
+            borderRadius -= 5;
+            borderRadius = Math.max(0, borderRadius);
+        } else {
+            borderRadius += 5;
+            borderRadius = Math.min(Math.min(width, height) / 2, borderRadius);
+        }
+
+        console.log(borderRadius);
+
+        rect.setAttribute("rx", `${borderRadius}`);
+        rect.setAttribute("ry", `${borderRadius}`);
+
+        e.preventDefault();
+       // console.log(e);
+    });
+
+    svg.addEventListener("mousedown", function (e) {
+        drawing = true;
+
+        [X, Y] = offset(e);
+        rect.setAttribute("x", `${X}`);
+        rect.setAttribute("y", `${Y}`);
+
+        rect.setAttribute("width", `0`);
+        rect.setAttribute("height", `0`);
+
+        // svg.appendChild(makeCircle(x, y));
+        svg.appendChild(rect);
+    });
+
+    svg.addEventListener("mousemove", function (e) {
+        if (drawing) {
+            let [x, y] = offset(e);
+            width = x - X;
+            height = y - Y;
+
+            if (width < 0) {
+                width = -width;
+                rect.setAttribute("x", `${x}`);
+            }
+
+            if (height < 0) {
+                height = -height;
+                rect.setAttribute("y", `${y}`);
+            }
+
+            rect.setAttribute("width", `${width}`);
+            rect.setAttribute("height", `${height}`);
+        }
+
+        // svg.appendChild(makeCircle(x, y));
+    });
+
+    svg.addEventListener("mouseup", function (e) {
+        drawing = false;
+    });
+        */
+
+    }
+
+    class Circle {
+        // let circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        // circle.setAttribute("fill", "none");
+        // circle.setAttribute("stroke", "black");
+        // let drawing = false;
+        // let X, Y;
+        // let R;
+        // let center;
+        //
+        // svg.addEventListener("mousedown", function (e) {
+        //     drawing = true;
+        //
+        //     if (center != null) {
+        //         svg.removeChild(center);
+        //     }
+        //
+        //     [X, Y] = offset(e);
+        //     center = makeCircle(X, Y);
+        //     R = 0;
+        //
+        //     circle.setAttribute("cx", `${X}`);
+        //     circle.setAttribute("cy", `${Y}`);
+        //     // svg.appendChild(makeCircle(x, y));
+        //     svg.appendChild(center);
+        //     svg.appendChild(circle);
+        // });
+        //
+        // svg.addEventListener("mousemove", function (e) {
+        //     if (drawing) {
+        //         let [x, y] = offset(e);
+        //         R = Math.hypot(X - x, Y - y);
+        //         circle.setAttribute("r", `${R}`);
+        //     }
+        //
+        //     // svg.appendChild(makeCircle(x, y));
+        // });
+        //
+        // svg.addEventListener("mouseup", function (e) {
+        //     drawing = false;
+        // });
+    }
+
+    class Ellipse {
+        // let ellipse = document.createElementNS('http://www.w3.org/2000/svg', "ellipse");
+        // ellipse.setAttribute("fill", "none");
+        // ellipse.setAttribute("stroke", "black");
+        //
+        // let drawing = false;
+        // let X, Y;
+        // let rx, ry;
+        //
+        // svg.addEventListener("mousedown", function (e) {
+        //     drawing = true;
+        //
+        //     [X, Y] = offset(e);
+        //     ellipse.setAttribute("cx", `${X}`);
+        //     ellipse.setAttribute("cy", `${Y}`);
+        //
+        //     ellipse.setAttribute("rx", "0");
+        //     ellipse.setAttribute("ry", "0");
+        //
+        //     // svg.appendChild(makeCircle(X, Y));
+        //     svg.appendChild(ellipse);
+        // });
+        //
+        // svg.addEventListener("mousemove", function (e) {
+        //     if (drawing) {
+        //         let [x, y] = offset(e);
+        //         rx = x - X;
+        //         ry = y - Y;
+        //
+        //         if (rx < 0) {
+        //             rx = -rx;
+        //             ellipse.setAttribute("x", `${x}`);
+        //         }
+        //
+        //         if (ry < 0) {
+        //             ry = -ry;
+        //             ellipse.setAttribute("y", `${y}`);
+        //         }
+        //
+        //         ellipse.setAttribute("rx", `${rx}`);
+        //         ellipse.setAttribute("ry", `${ry}`);
+        //     }
+        //
+        //     // svg.appendChild(makeCircle(x, y));
+        // });
+        //
+        // svg.addEventListener("mouseup", function (e) {
+        //     drawing = false;
+        // });
+
+    }
+
+    class Line {
+        // let line = document.createElementNS('http://www.w3.org/2000/svg', "line");
+        // line.setAttribute("stroke", "black");
+        // let points = [];
+        //
+        // f = function (e) {
+        //     let [x, y] = offset(e);
+        //     points.push(new Point(x, y));
+        //
+        //     line.setAttribute("x1", `${points[0].x}`);
+        //     line.setAttribute("y1", `${points[0].y}`);
+        //
+        //     if (points.length == 2) {
+        //         line.setAttribute("x2", `${points[1].x}`);
+        //         line.setAttribute("y2", `${points[1].y}`);
+        //         svg.appendChild(line);
+        //         svg.removeEventListener("mousedown", f);
+        //     }
+        //
+        //     // svg.appendChild(makeCircle(X, Y));
+        // };
+        //
+        // svg.addEventListener("mousedown", f);
+    }
+
+    class Polyline {
+        // let polyline = document.createElementNS('http://www.w3.org/2000/svg', "polyline");
+        // polyline.setAttribute("stroke", "orange");
+        // polyline.setAttribute("fill", "none");
+        // svg.appendChild(polyline);
+        // let points = [];
+        // let polyline_data = "";
+        //
+        // svg.addEventListener("mousedown", function (e) {
+        //     let [x, y] = offset(e);
+        //     points.push(new Point(x, y));
+        //
+        //     polyline_data += ` ${points[points.length - 1].toString()}`;
+        //     polyline.setAttribute("points", polyline_data);
+        //     // svg.appendChild(makeCircle(X, Y));
+        // });
+    }
+
+    class Polygon {
+        // let polygon = document.createElementNS('http://www.w3.org/2000/svg', "polygon");
+        // polygon.setAttribute("stroke", "crimson");
+        // polygon.setAttribute("fill", "none");
+        // svg.appendChild(polygon);
+        // let points = [];
+        // let polyline_data = "";
+        // let drawing = true;
+        //
+        // f = function (e) {
+        //     if (e.button == 1) {
+        //         svg.removeEventListener("mousedown", f);
+        //         e.preventDefault();
+        //         return;
+        //     }
+        //
+        //     let [x, y] = offset(e);
+        //     points.push(new Point(x, y));
+        //
+        //     polyline_data += ` ${points[points.length - 1].toString()}`;
+        //     polygon.setAttribute("points", polyline_data);
+        // };
+        //
+        // svg.addEventListener("mousedown", f);
+    }
+
+    function makeCircle(x, y) {
+        let elem = document.createElementNS('http://www.w3.org/2000/svg', "circle");
+        elem.setAttribute('cx', x);
+        elem.setAttribute('cy', y);
+        elem.setAttribute('r', '3');
+        elem.setAttribute('fill', 'yellow');
+        return elem;
+    }
+
+
+    const svg = document.querySelector("svg");
+    let bbox = svg.getBoundingClientRect();
+
+    function offset(e) {
+        return [e.clientX - bbox.left, e.clientY - bbox.top];
+    }
+
+
+    class Point {
+
+        constructor(x, y) {
+            this._x;
+            this._y;
+            this._x = x;
+            this._y = y;
+        }
+
+        get x() {
+            return this._x;
+        }
+
+        set x(value) {
+            this._x = value;
+        }
+
+        get y() {
+            return this._y;
+        }
+
+        set y(value) {
+            this._y = value;
+        }
+
+        toString() {
+            return `${this._x}, ${this._y}`;
+        }
+    }
+
+
+    let polygon = document.createElementNS('http://www.w3.org/2000/svg', "polygon");
+    polygon.setAttribute("stroke", "crimson");
+    polygon.setAttribute("fill", "none");
+    svg.appendChild(polygon);
+    let points = [];
+    let polyline_data = "";
+    let drawing = true;
+
+    f = function (e) {
+        if (e.button == 1) {
+            svg.removeEventListener("mousedown", f);
+            e.preventDefault();
+            return;
+        }
+
+        let [x, y] = offset(e);
+        points.push(new Point(x, y));
+
+        polyline_data += ` ${points[points.length - 1].toString()}`;
+        polygon.setAttribute("points", polyline_data);
+    };
+
+    svg.addEventListener("mousedown", f);
+
+    // class SvgPaint {
+    //
+    //     /**
+    //      * Supported curves:
+    //      *  1 - line
+    //      *  2 - Cubic Bezier
+    //      *  3 - Reflected Cubic Bezier
+    //      *  z - close the path
+    //      */
+    //     constructor() {
+    //         this._svg = document.querySelector("svg");
+    //
+    //         document.addEventListener('keydown', this);
+    //         this._svg.addEventListener('click', this);
+    //
+    //         this._curveType = 1;
+    //         this._currentPath = null;
+    //     }
+    //
+    //     _createPath(x, y) {
+    //         this._drawCircle(x, y);
+    //
+    //         this._currentPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    //
+    //         this._currentPath.setAttribute('d', `M ${x} ${y}`);
+    //         this._currentPath.setAttribute('fill', 'transparent');
+    //         this._currentPath.setAttribute('stroke', 'black');
+    //         this._currentPath.setAttribute('stroke-width', '3px');
+    //
+    //         this._svg.appendChild(this._currentPath);
+    //         this._partialCoordinates = [];
+    //     }
+    //
+    //     _clear() {
+    //         this._svg.innerHTML = '';
+    //     }
+    //
+    //     handleEvent(e) {
+    //         if (e.type == 'keydown') {
+    //             this._handleKeyDown(e.key);
+    //         } else {
+    //             // e.type == 'mousemove'
+    //
+    //             const x = e.offsetX;
+    //             const y = e.offsetY;
+    //
+    //             if (e.ctrlKey || !this._currentPath) {
+    //                 this._createPath(x, y);
+    //             } else if (e.shiftKey) {
+    //                 this._clear();
+    //             } else {
+    //                 this._extendPath(x, y);
+    //             }
+    //         }
+    //     }
+    //
+    //     _handleKeyDown(key) {
+    //         let curve = Number(key);
+    //         if (curve) {
+    //             this._curveType = curve;
+    //         } else if (key.toLowerCase() == "z" && this._currentPath) {
+    //             let data = this._currentPath.getAttribute('d');
+    //             data += ' Z';
+    //             this._currentPath.setAttribute('d', data);
+    //         }
+    //     }
+    //
+    //     _drawCircle(x, y) {
+    //         let elem = document.createElementNS('http://www.w3.org/2000/svg', "circle");
+    //         elem.setAttribute('cx', x);
+    //         elem.setAttribute('cy', y);
+    //         elem.setAttribute('r', '3');
+    //         elem.setAttribute('fill', 'red');
+    //         this._svg.appendChild(elem);
+    //     }
+    //
+    //     _extendPath(x, y) {
+    //         let data = this._currentPath.getAttribute('d');
+    //
+    //         switch (this._curveType) {
+    //             case 1: // line
+    //             default:
+    //                 data += ` L ${x} ${y}`;
+    //                 break;
+    //
+    //             case 2: // cubic Bezier
+    //                 this._partialCoordinates.push(`${x} ${y}`);
+    //                 if (this._partialCoordinates.length == 3) {
+    //                     data += ` C ${this._partialCoordinates.join(', ')}`;
+    //                     this._partialCoordinates = [];
+    //                 }
+    //                 break;
+    //
+    //             case 3: // reflected cubic Bezier
+    //                 this._partialCoordinates.push(`${x} ${y}`);
+    //                 if (this._partialCoordinates.length == 2) {
+    //                     data += ` S ${this._partialCoordinates.join(', ')}`;
+    //                     this._partialCoordinates = [];
+    //                 }
+    //                 break;
+    //         }
+    //
+    //         this._currentPath.setAttribute('d', data);
+    //         this._drawCircle(x, y);
+    //     }
+    //
+    // }
+    //
+    // let paint = new SvgPaint();
+</script>
+</body>
+</html>
