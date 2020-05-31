@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="styles.css">
+    <style>
+
+
+
+    </style>
+</head>
+<body>
+
+<p>
+    Bohužel, tato aplikace nepodporuje zařízení o rozměrech menších než 600x400 pixelů.
+</p>
+
+<header>
+    <nav>
+        <ul>
+            <li><a href="#editor">Editor</a></li>
+            <li><a href="#gallery">Galerie</a></li>
+            <li><a href="#about">O aplikaci</a></li>
+        </ul>
+    </nav>
+</header>
+
+
+<main>
+    <section id="editor" class="visible">
+
+        <aside class="hidden">
+            <section id="aside-content">
+
+                <div id="control-buttons">
+                    <button>Nový tvar</button>
+                    <button>Smazat vše</button>
+                    <button id="aside-off">&times;</button>
+                </div>
+
+                <div id="aside-tabs-controls">
+                    <input type="radio" name="aside-tab" value="0" id="aside-tab-list" checked/>
+                    <label for="aside-tab-list">Seznam</label>
+                    <input type="radio" name="aside-tab" value="1" id="aside-tab-tools"/>
+                    <label for="aside-tab-tools">Nástroje</label>
+                </div>
+
+                <div id="aside-list">
+                    <div>D</div>
+                    <div>E</div>
+                    <div>F</div>
+                    <div>D</div>
+                    <div>E</div>
+                    <div>F</div>
+                    <div>D</div>
+                    <div>F</div>
+                    <div>D</div>
+                    <div>E</div>
+                    <div>F</div>
+                    <div>D</div>
+
+                    <div>F</div>
+                    <div>D</div>
+                    <div>E</div>
+                    <div>F</div>
+                    <div>D</div>
+
+
+                </div>
+
+                <div id="aside-tools">
+                    <div>Ano</div>
+                    <div>Babi</div>
+                    <div>Cyprys</div>
+                    <div>Donesu</div>
+                </div>
+            </section>
+        </aside>
+
+        <button id="aside-on">&#10148;</button>
+
+        <script>
+            class Tabs {
+
+                constructor(tabs, contents) {
+                    this._tabs = tabs;
+                    this._contents = contents;
+
+                    for (let i = 0; i < tabs.length; ++i) {
+                        const tab = this._tabs[i];
+                        const content = this._contents[i];
+
+                        content.classList.remove("visible");
+
+                        if (tab.checked) {
+                            this._active = i;
+                            content.classList.add("visible");
+                        }
+
+                        tab.addEventListener("click", e => this.switchTabs(Number.parseInt(e.target.value)));
+                    }
+                };
+
+                switchTabs(index) {
+                    this._contents[this._active].classList.remove("visible");
+                    this._active = index;
+                    this._contents[this._active].classList.add("visible");
+                }
+            }
+
+            class Menu {
+
+                constructor() {
+                    this._element = document.querySelector("#editor aside");
+                    this._switch = this._element.querySelector("#aside-switch ~ label");
+
+                    this._active = !this._element.classList.contains("hidden");
+                    this._switch.addEventListener("click", () => this.toggleMenu());
+                }
+
+                toggleMenu() {
+                    this._active = !this._active;
+                    if (this._active) {
+                        this._element.classList.remove("hidden");
+                    } else {
+                        this._element.classList.add("hidden");
+                    }
+                }
+            }
+
+            const asideTabs = new Tabs(document.querySelectorAll("#aside-tabs-controls input"), document.querySelectorAll("#aside-tabs-controls ~ div"));
+            // const aside = new Menu();
+
+            document.querySelector("#aside-on").addEventListener("click", function(e) {
+               document.querySelector("#editor aside").classList.remove("hidden");
+               console.log("It")
+            });
+
+            document.querySelector("#aside-off").addEventListener("click", function(e) {
+                document.querySelector("#editor aside").classList.add("hidden");
+                console.log("is");
+            });
+
+            // const asideTabs = ;
+            // let activeTab = Number.parseInt(document.querySelector("#aside-tabs > input:checked").getAttribute("value"));
+            //
+            // for (let tab of ) {
+            //     tab.addEventListener("click", e => {
+            //         const index = Number.parseInt(e.target.value);
+            //         console.log(index);
+            //         asideTabs[1 - index].classList.remove("visible");
+            //         asideTabs[index].classList.add("visible");
+            //     })
+            // }
+
+            // console.log(activeTab)
+            // asideTabs[activeTab].setAttribute("check")
+            //
+            //
+            // document.addEventListener("")
+        </script>
+
+        <section>
+            <svg>
+<!--                <rect x="0" y="0" width="100%" height="100%" fill="violet"></rect>-->
+<!--                <rect x="100" y="100" width="100" height="100"></rect>-->
+            </svg>
+        </section>
+    </section>
+
+    <section id="gallery"></section>
+
+    <section id="about">
+        <svg xmlns="http://www.w3.org/2000/svg">
+            <rect width="100%" height="100%" rx="5%" fill="red" />
+            <circle cx="150" cy="100" r="80" fill="green" />
+            <text x="150" y="125" font-size="60" text-anchor="middle" fill="white">SVG</text>
+        </svg>
+
+        <h1>Základní informace</h1>
+        <p>
+            Tato aplikace poskytuje jednoduché kreslení založené na vektorové grafice. Vektorová grafika je reprezentována
+            ve standardním formátu <a href="https://www.w3.org/TR/SVG2/" target="_blank">SVG</a>.
+        </p>
+        <p>Aplikace vznikla v rámci semestrální práce na předmět
+            <a href="https://seznam.github.io/CVUT/KAJ/" target="_blank">Tvorba klientských aplikací v JavaScriptu</a>.
+        </p>
+
+        <h1>Další informace</h1>
+        Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je
+        považováno
+        za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich
+        základě
+        vytvořil speciální vzorovou knihu. Jeho odkaz nevydržel pouze pět století, on přežil i nástup elektronické sazby
+        v
+        podstatě beze změny. Nejvíce popularizováno bylo Lorem Ipsum v šedesátých letech 20. století, kdy byly vydávány
+        speciální vzorníky s jeho pasážemi a později pak díky počítačovým DTP programům jako Aldus PageMaker.
+    </section>
+</main>
+
+<script>
+    class MyApp {
+
+        constructor() {
+            this._routingTable = new Map();
+            this._pages = document.querySelectorAll('main > section');
+            this._currentPage = null;
+
+            for (let i = 0; i < this._pages.length; ++i) {
+                const page = this._pages[i];
+                this._routingTable.set(page.id, page);
+
+                if (page.classList.contains("visible")) {
+                    this._currentPage = page;
+                }
+            }
+
+            if (location.hash !== "") {
+                if (this._currentPage) {
+                    this._currentPage.classList.remove("visible");
+                }
+
+                this._currentPage =  this._routingTable.get(location.hash.substring(1));
+                this._currentPage.classList.add("visible");
+            }
+
+
+            window.addEventListener('popstate', e => this._route(e));
+        }
+
+        _route() {
+            this._currentPage.classList.remove("visible");
+            this._currentPage = this._routingTable.get(location.hash.substring(1));
+            this._currentPage.classList.add("visible");
+        }
+    }
+
+    let app = new MyApp()
+
+    class Picture {
+
+        constructor(name, svg) {
+            this.name = name;
+            this.svg = svg;
+        }
+
+    }
+
+    console.log("Adding event to storage");
+    window.addEventListener('storage', () => {
+        console.log(JSON.parse(window.localStorage.getItem('AA')));
+        console.log(window.localStorage.length);
+    });
+
+
+
+
+
+    let p1 = new Picture("rect1", `<rect x="100" y="100" width="50" height="25">`);
+    let p2 = new Picture("rect2", `<rect x="10" y="10" width="50" height="25" fill="red">`);
+    let p3 = new Picture("rect2", `<rect x="10" y="10" width="50" height="25" fill="red">`);
+    let p4 = new Picture("rect2", `<rect x="10" y="10" width="50" height="25" fill="red">`);
+    let p5 = new Picture("rect2", `<rect x="10" y="10" width="50" height="25" fill="red">`);
+    let p6 = new Picture("rect2", `<rect x="10" y="10" width="50" height="25" fill="red">`);
+
+    let imgs = [p1, p2, p3, p4, p5];
+
+    window.localStorage.setItem("AA", JSON.stringify(imgs));
+    document.addEventListener("load", () => console.log(JSON.parse(window.localStorage.getItem('AA'))));
+
+    let storedSvgs = JSON.parse(window.localStorage.getItem('AA'));
+    console.log(storedSvgs);
+
+    const gallery = document.querySelector("#gallery");
+    for (let i = 0; i < storedSvgs.length; i++) {
+        const item = storedSvgs[i];
+
+        let div = document.createElement("div");
+        let downloadLink = document.createElement("a");
+        downloadLink.innerText = "Stáhnout";
+
+        let title = document.createElement("h1");
+        title.innerText = item.name;
+
+        let svgEl = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        svgEl.innerHTML = storedSvgs[i].svg;
+        // svgEl.style.width = "100%";
+        // svgEl.style.height = "350px";
+        svgEl.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+        let svgData = svgEl.outerHTML;
+        let preface = '<?xml version="1.0" standalone="no"?>\r\n';
+        let svgBlob = new Blob([preface, svgData], {type:"image/svg+xml;charset=utf-8"});
+        downloadLink.href = URL.createObjectURL(svgBlob);
+        downloadLink.download = `${item.name}.svg`;
+
+        div.appendChild(title);
+        div.appendChild(svgEl);
+        div.appendChild(downloadLink);
+        gallery.appendChild(div);
+    }
+
+</script>
+
+</body>
+</html>
